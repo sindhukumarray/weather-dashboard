@@ -2,8 +2,8 @@ const form = document.getElementById('weather-form');
 const cityInput = document.getElementById('city');
 const output = document.getElementById('output');
 
-// ham aha  API Key lgaye 
-const API_KEY = 'YOUR_API_KEY';
+// ham aha  API Key  lgayege
+const API_KEY = '3d65117baa7b37d8c8ab6e82b36b4e3e';
 
 // aha pe  submit ke liye hai
 form.addEventListener('submit', async (e) => {
