@@ -2,7 +2,8 @@ const form = document.getElementById('weather-form');
 const cityInput = document.getElementById('city');
 const output = document.getElementById('output');
 
-
+// to show history list
+const historyList = document.getElementById('history-list');
 // to Dark mode button
 const themeToggle = document.getElementById('theme-toggle');
 
@@ -23,11 +24,50 @@ themeToggle.addEventListener('click', () => {
 // ham aha  API Key  lgayege
 const API_KEY = '3d65117baa7b37d8c8ab6e82b36b4e3e';
 
+// to saved history  localStorage
+let searchHistory =
+  JSON.parse(localStorage.getItem('weatherHistory')) || [];
+
+  // to Function to display search history
+function renderHistory() {
+
+  // a sare  old history ko clear krega
+  historyList.innerHTML = '';
+
+  // to history array
+  searchHistory.forEach((city) => {
+
+    // Create list item
+    const li = document.createElement('li');
+
+    li.textContent = city;
+
+    // to Add into list
+    historyList.appendChild(li);
+
+  });
+
+}
+
 // aha pe  submit ke liye hai
 form.addEventListener('submit', async (e) => {
   e.preventDefault(); // to prevent page reload
 
   const city = cityInput.value.trim();
+
+  // to find duplicate cities
+if (!searchHistory.includes(city)) {
+
+  // Add city into array
+  searchHistory.push(city);
+
+  // Save into localStorage
+  localStorage.setItem(
+    'weatherHistory',
+    JSON.stringify(searchHistory)
+  );
+
+}
 
   // to input corret data Validation
   if (!city) {
@@ -60,6 +100,8 @@ form.addEventListener('submit', async (e) => {
       wind
     } = data;
 
+// to Update history on screen
+renderHistory();
     //to show in weather icon
      const icon = weather[0].icon;
     // to Display result
@@ -81,3 +123,4 @@ form.addEventListener('submit', async (e) => {
     output.innerHTML = `<p style="color:red;">${error.message}</p>`;
   }
 });
+
