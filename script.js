@@ -2,94 +2,68 @@ const form = document.getElementById('weather-form');
 const cityInput = document.getElementById('city');
 const output = document.getElementById('output');
 
-// to show history list
+//to show History list
 const historyList = document.getElementById('history-list');
-// to Dark mode button
+
+//to apply Dark mode button
 const themeToggle = document.getElementById('theme-toggle');
 
-//to Toggle dark mode
+// Toggle dark mode
 themeToggle.addEventListener('click', () => {
 
-  //to  Add and remove dark mode class
   document.body.classList.toggle('dark-mode');
 
-  // to change text
   if(document.body.classList.contains('dark-mode')){
     themeToggle.textContent = '☀';
   } else {
-  themeToggle.textContent = '🌙';
+    themeToggle.textContent = '🌙';
   }
 
 });
-// ham aha  API Key  lgayege
+
+//to use in  API Key
 const API_KEY = '3d65117baa7b37d8c8ab6e82b36b4e3e';
 
-// to saved history  localStorage
+//to  saved history
 let searchHistory =
   JSON.parse(localStorage.getItem('weatherHistory')) || [];
 
-  // to Function to display search history
+//to  Show search history
 function renderHistory() {
 
-  // a sare  old history ko clear krega
   historyList.innerHTML = '';
 
-  // to history array
   searchHistory.forEach((city) => {
 
-    // Create list item
     const li = document.createElement('li');
 
     li.textContent = city;
 
-    // to Add into list
     historyList.appendChild(li);
 
   });
 
 }
 
-// aha pe  submit ke liye hai
-form.addEventListener('submit', async (e) => {
-  e.preventDefault(); // to prevent page reload
+// a hai hmara  MAIN WEATHER FUNCTION
+async function getWeather(city) {
 
-  const city = cityInput.value.trim();
-
-  // to find duplicate cities
-if (!searchHistory.includes(city)) {
-
-  // Add city into array
-  searchHistory.push(city);
-
-  // Save into localStorage
-  localStorage.setItem(
-    'weatherHistory',
-    JSON.stringify(searchHistory)
-  );
-
-}
-
-  // to input corret data Validation
-  if (!city) {
-    output.textContent = ' Please enter a city name';
-    return;
-  }
-
-  // Show  state to loading
-  output.innerHTML = '<p> Loading...</p>';
+  // to Loading state
+  output.innerHTML = '<p>Loading...</p>';
 
   try {
-    //to Fetch data from API i
+
+    //to  Fetch API
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
     );
 
-    //to Check error msg
+    // to Error handling
     if (!response.ok) {
-      throw new Error('City not found ');
+      throw new Error('City not found');
     }
 
-    //to Convert response to JSON
+    // Convert to JSON
     const data = await response.json();
 
     const {
@@ -100,27 +74,79 @@ if (!searchHistory.includes(city)) {
       wind
     } = data;
 
-// to Update history on screen
-renderHistory();
-    //to show in weather icon
-     const icon = weather[0].icon;
-    // to Display result
-   output.innerHTML = `
-  <h2>${name}, ${country}</h2>
+    // to show Weather icon
+    const icon = weather[0].icon;
 
-  <img 
-    src="https://openweathermap.org/img/wn/${icon}@2x.png"
-    alt="Weather Icon"
-  >
+    // Show weather
+    output.innerHTML = `
+      <h2>${name}, ${country}</h2>
 
-  <p>🌡 Temperature: ${temp} °C</p>
-  <p>☁ Condition: ${weather[0].main}</p>
-  <p>💧 Humidity: ${humidity}%</p>
-  <p>🌬 Wind: ${wind.speed} m/s</p>
-`;
+      <img 
+        src="https://openweathermap.org/img/wn/${icon}@2x.png"
+        alt="Weather Icon"
+      >
+
+      <p>🌡 Temperature: ${temp} °C</p>
+      <p>☁ Condition: ${weather[0].main}</p>
+      <p>💧 Humidity: ${humidity}%</p>
+      <p>🌬 Wind: ${wind.speed} m/s</p>
+    `;
 
   } catch (error) {
-    output.innerHTML = `<p style="color:red;">${error.message}</p>`;
+
+    output.innerHTML = `
+      <p style="color:red;">
+        ${error.message}
+      </p>
+    `;
   }
+
+}
+
+//click Form submit
+form.addEventListener('submit', (e) => {
+
+  e.preventDefault();
+
+  const city = cityInput.value.trim();
+
+  //to city place Validation
+  if (!city) {
+    output.textContent = 'Please enter a city name';
+    return;
+  }
+
+  // to Save last searched city
+  localStorage.setItem('lastCity', city);
+
+  // to Save history
+  if (!searchHistory.includes(city)) {
+
+    searchHistory.push(city);
+
+    localStorage.setItem(
+      'weatherHistory',
+      JSON.stringify(searchHistory)
+    );
+
+  }
+
+  //to  Update history UI
+  renderHistory();
+
+  //to  Fetch weather
+  getWeather(city);
+
 });
 
+// to Show history on refresh
+renderHistory();
+
+//  Load last searched city automatically
+const lastCity = localStorage.getItem('lastCity');
+
+if (lastCity) {
+
+  getWeather(lastCity);
+
+}
