@@ -53,3 +53,34 @@ button {
   background: #2563eb;
   color: white;
 }
+
+/*to Responsive for use all devices */
+
+@media (max-width: 600px) {
+
+  .container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  input {
+    width: 100%;
+    margin-right: 0;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+}
