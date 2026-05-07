@@ -157,6 +157,11 @@ button:hover {
   margin: 10px 0;
 }
 
+.weather-output:empty {
+
+  display: none;
+}
+
 h3 {
 
   margin-top: 25px;
