@@ -42,14 +42,22 @@ form.addEventListener('submit', async (e) => {
       wind
     } = data;
 
+    //to show in weather icon
+     const icon = weather[0].icon;
     // to Display result
-    output.innerHTML = `
-      <h2>${name}, ${country}</h2>
-      <p> Temperature: ${temp} °C</p>
-      <p> Condition: ${weather[0].main}</p>
-      <p> Humidity: ${humidity}%</p>
-      <p> Wind: ${wind.speed} m/s</p>
-    `;
+   output.innerHTML = `
+  <h2>${name}, ${country}</h2>
+
+  <img 
+    src="https://openweathermap.org/img/wn/${icon}@2x.png"
+    alt="Weather Icon"
+  >
+
+  <p>🌡 Temperature: ${temp} °C</p>
+  <p>☁ Condition: ${weather[0].main}</p>
+  <p>💧 Humidity: ${humidity}%</p>
+  <p>🌬 Wind: ${wind.speed} m/s</p>
+`;
 
   } catch (error) {
     output.innerHTML = `<p style="color:red;">${error.message}</p>`;
