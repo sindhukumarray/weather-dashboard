@@ -2,6 +2,24 @@ const form = document.getElementById('weather-form');
 const cityInput = document.getElementById('city');
 const output = document.getElementById('output');
 
+
+// to Dark mode button
+const themeToggle = document.getElementById('theme-toggle');
+
+//to Toggle dark mode
+themeToggle.addEventListener('click', () => {
+
+  //to  Add and remove dark mode class
+  document.body.classList.toggle('dark-mode');
+
+  // to change text
+  if(document.body.classList.contains('dark-mode')){
+    themeToggle.textContent = '☀ Light Mode';
+  } else {
+    themeToggle.textContent = '🌙 Dark Mode';
+  }
+
+});
 // ham aha  API Key  lgayege
 const API_KEY = '3d65117baa7b37d8c8ab6e82b36b4e3e';
 

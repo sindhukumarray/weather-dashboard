@@ -31,3 +31,25 @@ button {
 .weather-output {
   margin-top: 20px;
 }
+
+/*to add Dark mode */
+
+.dark-mode {
+  background: #1e293b;
+  color: white;
+}
+
+.dark-mode .container {
+  background: #334155;
+}
+
+.dark-mode input {
+  background: #0f172a;
+  color: white;
+  border: 1px solid gray;
+}
+
+.dark-mode button {
+  background: #2563eb;
+  color: white;
+}
