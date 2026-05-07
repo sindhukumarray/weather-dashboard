@@ -65,3 +65,7 @@ https://openweathermap.org/api
 
 ```bash
 git clone https://github.com/sindhukumarray/weather-dashboard.git
+
+# 🌐 Live Demo
+
+👉 https://sindhukumarray.github.io/weather-dashboard/
