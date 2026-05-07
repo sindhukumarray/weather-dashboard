@@ -15,9 +15,9 @@ themeToggle.addEventListener('click', () => {
 
   // to change text
   if(document.body.classList.contains('dark-mode')){
-    themeToggle.textContent = '☀ Light Mode';
+    themeToggle.textContent = '☀';
   } else {
-    themeToggle.textContent = '🌙 Dark Mode';
+  themeToggle.textContent = '🌙';
   }
 
 });
